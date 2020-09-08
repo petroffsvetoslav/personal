@@ -1,0 +1,29 @@
+---
+- hosts: all
+  user: root
+  vars: 
+    createuser: 'svetoslav.petrov'
+    createpassword: 'nTV7jxp5EQ6M7Cqi5D'
+  tasks:
+  - name: Setup | create user
+    command: useradd -m -s /bin/bash {{ createuser }} creates=/home/{{ createuser }}
+    become: yes
+
+  - name: Setup | set user password
+    shell: usermod -p $(echo '{{ createpassword }}' | openssl passwd -1 -stdin) {{ createuser }}
+    become: yes
+
+  - name: Setup | authorized key upload
+    authorized_key: user={{createuser}} key="{{ lookup('file', item) }}" state=present
+    with_fileglob:
+      - /home/svetoslav/ansible/deploy_keys_new_machines/keys/*.pub     #here is where the keys location is defined 
+    become: yes
+
+  - name: Sudoers | update sudoers file and validate
+    lineinfile: "dest=/etc/sudoers
+      insertafter=EOF
+      line='{{ createuser }} ALL=(ALL) NOPASSWD: ALL'
+      regexp='{{ createuser }} ALL=(ALL) NOPASSWD: ALL'
+      state=present"
+    become: yes
+

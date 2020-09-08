@@ -1,0 +1,10 @@
+---
+- hosts: all
+  user: root
+  vars:
+     useuser: 'root'
+  tasks:
+  - name: Setup | authorized key upload
+    authorized_key: user={{useuser}} key="{{ lookup('file', item) }}" state=present
+    with_fileglob:
+      - /home/svetoslav/personal/deploy_keys_existing_machines/keys/*.pub 

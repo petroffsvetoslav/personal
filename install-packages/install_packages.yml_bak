@@ -1,0 +1,13 @@
+- hosts: all
+  become: true
+  tasks:
+   - name: Install all the packages
+     apt:
+       name: '{{ item }}'
+       state: present
+       update_cache: True
+     loop:
+       - vim
+       - python3
+       - htop
+       - aptitude

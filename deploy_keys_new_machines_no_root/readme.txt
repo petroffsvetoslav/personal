@@ -1,0 +1,4 @@
+after you deploy a new mv, access it as root and install (apt update / apt install sudo -y / apt install python), vim /etc/ssh/sshd_config (PermitRootLogin yes), change root password (passwd) and restart sshd (systemctl restart sshd), vim /etc/default/useradd and set the SHELL variable to /bin/bash. Update values in hosts.ini & .yml file if required and execute playbook wiht (sudo ansible-playbook -i hosts.ini deploy-keys.yml --ask-pass) You might need to install sshpass localy first (sudo apt install sshpass -y) Type in the root password and the specified user/password(from .yml file) should be created with sudo access and the key from /keys dir attached to it. You can the ssh in the machine with that user and using your ssh key.
+///
+some of the above might not be needed since you won't use root, but sudo admin account that was created during vm install.
+make sure to execute the playbook with --ask-sudo-pass at the end in order to be able to become the root user

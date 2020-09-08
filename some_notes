@@ -1,0 +1,9 @@
+So you can make different groups in hosts.ini using the already set pattern.
+In order to bypass typing the ssh key passprahse you need to use ssh agent forwarding (e.g- eval "$(ssh-agent -s)" + ssh-add ~/.ssh/id_rsa)
+If you want to run a command against a particular grp of hosts do (ansible -i hosts.ini -m ping speeches) where speeches would be host grp defined in hosts.ini file
+If you want to run a playbook against a particular grp of hosts do (sudo ansible-playbook -i hosts.ini -l speeches ansible-playbook.yml) where -l speeches would be the hosts grp defined in hosts.ini file
+
+1. Deploy vm and setup sudo admin account during install
+2. Deploy your ssh key using the _no_root playbook and the sudo admin account (filled in hosts.ini) plus --ask-sudo-pass option
+3. After your new passwordless sudo admin account is created and the key is added to it,  you can execute any of the other playbooks as that account, which will switch to root for actual operations
+4. Profit

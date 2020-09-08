@@ -1,0 +1,24 @@
+- hosts: all
+  become: true
+  tasks:
+   - name: import the apt key for mariaDB
+     apt_key:
+       url: https://mariadb.org/mariadb_release_signing_key.asc
+       state: present
+     become: true
+   - name: install elasticsearch 6.x deb repository
+     apt_repository:
+       repo: 'deb http://mariadb.mirror.liquidtelecom.com/repo/10.4/ubuntu focal main'
+       state: present
+     become: true     
+   - name: Install all the packages
+     apt:
+       name: '{{ item }}'
+       state: present
+       update_cache: True
+     loop:
+       - vim
+       - python3
+       - htop
+       - aptitude
+       - mariadb
