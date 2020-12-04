@@ -1,0 +1,13 @@
+---
+- name: Add SSH key to server
+  hosts: all
+
+ 
+
+  tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: dobrin
+        state: present
+        key: "{{ lookup('file', '/home/dobrin/.ssh/id_rsa.pub') }}"
+       become: yes

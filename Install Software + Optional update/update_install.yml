@@ -1,0 +1,21 @@
+- hosts: hosts
+  tasks:
+    - name: Update System Deb (apt)
+      apt:
+        name: "*"
+        state: latest
+    - name: Update System RPM (yum)
+      yum:
+        name: "*"
+        state: latest   
+    - name: Ansible apt install packages example
+      become: true
+      become_user: root
+      apt:
+         name:
+         - zip
+         - wget
+         - htop
+         - apache2  
+         state: present
+         update_cache: true

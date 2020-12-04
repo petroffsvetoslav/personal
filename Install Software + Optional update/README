@@ -1,0 +1,8 @@
+#Install Software on Remote hosts
+
+1. Add the desired hosts to the .ini inventory file and make sure to include their root credentials
+2. Check the .yml file for what software to install (additional software can be added but make sure to keep the syntax?) 
+3. the .cfg file is the ansible configuration file that current disables the known_hosts check
+
+Execute the playbook with 
+ansible-playbook --inventory-file=hosts.ini update_install.yml

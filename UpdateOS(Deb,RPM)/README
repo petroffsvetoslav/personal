@@ -1,0 +1,6 @@
+#Update Remote OS'
+
+1. Add the desired hosts to the .ini inventory file and make sure to include their root credentials
+
+Execute the playbook with 
+ansible-playbook --inventory-file=hosts.ini update_os.yml

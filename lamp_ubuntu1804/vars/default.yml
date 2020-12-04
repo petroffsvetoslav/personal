@@ -1,0 +1,7 @@
+---
+mysql_root_password: "1q2w9o0p"
+app_user: "scaleadmin"
+http_host: "192.168.0.114"
+http_conf: "lamp.conf"
+http_port: "80"
+disable_default: true

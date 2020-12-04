@@ -1,0 +1,5 @@
+---
+mysql_root_password: "1q2w9o0p"
+http_host: "192.168.0.114"
+http_conf: "lemp.conf"
+http_port: "80"

@@ -1,0 +1,15 @@
+- hosts: hosts
+  tasks:
+    - name: Ansible apt install packages example
+      become: true
+      become_user: root
+      apt:
+         name:
+         - zip
+         - wget
+         - htop
+         - git
+         - curl
+         - perl  
+         state: present
+         update_cache: true

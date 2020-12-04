@@ -1,0 +1,14 @@
+---
+#System Settings
+php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
+
+#MySQL Settings
+mysql_root_password: "1q2w9o0p"
+mysql_db: "dbx0"
+mysql_user: "unixbashscript"
+mysql_password: "zamunda123"
+
+#HTTP Settings
+http_host: "10.0.2.15"
+http_conf: "wordpress.conf"
+http_port: "80"
