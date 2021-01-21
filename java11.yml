@@ -1,0 +1,20 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Update repo cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+    - name: Install Java 11
+      apt:
+        name: default-jdk
+        state: present
+
+    - name: Set JAVA_HOME variable
+      lineinfile:
+        path: /etc/environment
+        line: JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+
+    - name: Source environment file
+      shell: echo "source /etc/environment"

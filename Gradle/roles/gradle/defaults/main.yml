@@ -1,0 +1,5 @@
+---
+oracle_java_version: 11 #change to your Java vesion
+gradle_version: "6.8" #change to your desired Gradle version
+gradle_zipfile: "gradle-{{gradle_version}}-all.zip"
+gradle_folder:  "gradle-{{gradle_version}}"

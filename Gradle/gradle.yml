@@ -1,0 +1,6 @@
+---
+- hosts: servers #groupt of hosts on which to execute
+  remote_user: svetoslav #remote user with sudo permission
+  become: yes
+  roles:
+    - { role: gradle }
