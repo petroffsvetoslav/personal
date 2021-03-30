@@ -1,0 +1,54 @@
+---
+- hosts: servers
+  become: yes
+  vars_files:
+    - vars/vars.yml
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+  handlers:
+    - name: Restart Solr
+      service:
+        name: solr
+        state: restarted
+  tasks:
+#If you update configuration via the task bellow, the handler above will be notified and Solr service restarts
+#    - name: Change Solr configuration
+#      command: some command
+#      notify: Restart Solr
+    - name: Install Java
+      package:
+        name: openjdk-11-jdk
+        state: present
+    - name: Download Solr
+      get_url:
+        url: "https://downloads.apache.org/lucene/solr/{{ solr_version }}/solr-{{ solr_version }}.tgz"
+        dest: "{{ download_dir }}/solr-{{ solr_version }}.tgz"
+        checksum: "{{ solr_checksum }}"
+    - name: Unarchive Solr
+      unarchive:
+        src: "{{ download_dir }}/solr-{{ solr_version }}.tgz"
+        dest: "{{ download_dir }}"
+# Important if you have the file already available on the server
+        remote_src: true
+# creates - If Ansible detects the bellow file already present on the server is will skip the unarchive step
+        creates: "{{ download_dir }}/solr-{{ solr_version }}/README.txt"
+    - name: Install Solr
+      command: >
+        "{{ download_dir }}/solr-{{ solr_version }}/bin/install_solr_service.sh"
+        "{{ download_dir }}/solr-{{ solr_version }}.tgz"
+        -i /tmp
+        -d /var/solr
+        -u solr
+        -s solr
+        -p 8983
+      args:
+        creates: "{{ solr_dir }}/bin/solr"
+
+    - name: Ensure solr is started and enabled
+      service:
+        name: solr
+        state: started
+        enabled: yes
