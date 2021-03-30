@@ -1,0 +1,66 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+   - vars/vars.yml
+  pre_tasks:
+   - name: Update cache
+     package:
+      use: auto
+      update_cache: yes
+      state: latest
+      force_apt_get: yes
+      cache_valid_time: 3600
+  tasks:
+   - name: Make sure previous docker components are removed
+     package:
+       name:
+         - docker
+         - docker-engine
+         - docker.io
+         - containerd.io
+       state: absent
+     ignore_errors: yes
+     register: purge
+   - name: Output removed components
+     debug:
+      var: purge
+   - name: Remove any left dependencies
+     apt:
+       autoremove: yes
+   - name: Install prerequisites
+     package:
+       name: "{{ pre }}"
+       state: present
+   - name: Add docker key
+     shell: "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -"
+     args:
+      warn: false # set warn=false to prevent warning
+   - name: Add repository
+     apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/debian buster stable
+        state: present
+   - name: Update cache
+     package:
+      use: auto
+      update_cache: yes
+      state: latest
+      force_apt_get: yes
+      cache_valid_time: 3600
+   - name: Install docker
+     package:
+      name: "{{ packages }}"
+      state: present
+   - name: Check docker version
+     shell: "docker --version"
+     register: version
+   - name: Output docker version
+     debug:
+      var: version
+   - name: Make sure docker service is started on boot
+     service:
+      name: docker
+      state: started
+      enabled: yes
+   - name: Install docker-compose
+     shell: "pip3 install docker-compose"
