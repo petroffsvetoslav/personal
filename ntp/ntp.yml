@@ -1,0 +1,18 @@
+---
+- hosts: servers
+  become: yes
+  vars:
+    ntp_enabled: true # enable on boot
+    ntp_timezone: Europe/Sofia #Set the timezone for your server.
+    ntp_package: ntp #installs package or chrony for rhel
+    ntp_config_file: /etc/ntp.conf #or /etc/chrony.conf on RHEL/CentOS 7 and later.
+    ntp_manage_config: false #Set to true to allow this role to manage the NTP configuration file (/etc/ntp.conf).
+    ntp_area: 'Europe' #Set the NTP Pool Area to use. Defaults to none, which uses the worldwide pool.
+    ntp_restrict: #Restrict NTP access to these hosts; loopback only, by default.
+      - "127.0.0.1"
+      - "::1"
+    ntp_cron_handler_enabled: false #Whether to restart the cron daemon after the timezone has changed.
+    ntp_tinker_panic: true #Enable tinker panic, which is useful when running NTP in a VM.
+
+  roles:
+    - geerlingguy.ntp

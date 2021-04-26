@@ -1,0 +1,6 @@
+- hosts: servers
+  become: yes
+  vars:
+    adminer_install_filename: adminers.php
+  roles:
+    - { role: geerlingguy.adminer }
