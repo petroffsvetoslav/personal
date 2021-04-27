@@ -1,0 +1,32 @@
+---
+users_create_per_user_group: true # when creating users, also create a group with the same username.
+users_default_shell: /bin/bash #default new user shell.
+users_create_homedirs: true #create user home directory.
+
+users:
+  - username: sam
+    name: Samwise Gamgee
+    groups: ['systemd-journal', 'developers', 'test', 'merry'] #groups other than the default that the user must join.(can be the new group create bellow)
+    uid: 1002 #uniqe numeric user id for the user (optional). This is required for uid consistency across systems.
+    home: /home/sam #The home directory of the user to create (optional, defaults to /home/username).
+    #a string block for setting custom shell profiles.
+    profile: |
+      alias ll='ls -lah'
+    ssh_key: #ssh keys to be attached to the user.
+      - "ssh-rsa AAAAB.... foo2@machine"
+      #- "ssh-rsa AAAAB.... foo2@machine"
+    #password: 191AF238A58928CDEC914A864300923F
+    #update_password: on_create # This can be either 'always' or 'on_create' 'always' will update passwords if they differ. (default)
+    #'on_create' will only set the password for newly created users.
+
+    generate_ssh_key: no #should ssh keys be geneterated for the new user.
+    #shell: #use this to overwrite global setting (users_default_shell) to something else.
+#groups_to_create: #create some other group if required.
+  #- name: merry
+    #gid: 10002 #this must be unique
+# users_deleted: #contains a list of users who should no longer be in the system, and these will be removed on the next ansible run.
+#   - username: bar
+#     name: Bar User
+#     uid: 1002
+#      remove: yes #remove the user's home directory and mail spool.
+#      force: yes #force removal of files
