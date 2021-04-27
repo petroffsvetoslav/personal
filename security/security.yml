@@ -4,3 +4,4 @@
     - vars/main.yml
   roles:
     - geerlingguy.security
+  #check_mode: yes  # uncomment this to run ansible-playbook --check mode (play does not apply changes)
